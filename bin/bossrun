@@ -28,5 +28,5 @@ if args.include?('--help') || args.include?('-h')
 end
 print "Boss runner\nVersion #{version}\n"
 
-log("Starting Web")
+log("Starting web-app #{ENV["BOSS_APP_NAME"]}")
 # Args checking

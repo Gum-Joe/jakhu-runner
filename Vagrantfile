@@ -19,10 +19,10 @@ Vagrant.configure(2) do |config|
   # `vagrant box outdated`. This is not recommended.
   # config.vm.box_check_update = false
 
-  # Install git
+  # Install git and ruby
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update
-    sudo apt-get install -y git-core
+    sudo apt-get install -y git-core ruby-full
   SHELL
 
   # Create a forwarded port mapping which allows access to a specific port
