@@ -14,4 +14,4 @@ CP_FLAGS ?= -v
 $(BINPATH):
 	@echo "  CP(link) "$(BINPATH)/$(app.rb); \
 	mkdir -p $(BINPATH); \
-	$(CP) $(CP_FLAGS) -l $(BINSOURCE) $(app.rb);
+	$(CP) -l $(BINSOURCE) $(app.rb);

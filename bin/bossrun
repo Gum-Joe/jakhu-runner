@@ -7,7 +7,8 @@
 # Symb-link: bin/bossrun
 
 # Require out logger in lib/
-require_relative "lib/logger"
+require_relative "../lib/logger"
+require_relative "../lib/help"
 
 # Version number
 # Also, set args to the ARGV array
@@ -22,7 +23,8 @@ if args.include?('-v')
 end
 # Fast-track to help
 if args.include?('--help') || args.include?('-h')
-  print version
+  print "Boss runner\nVersion #{version}\n"
+  help()
   exit 0
 end
 print "Boss runner\nVersion #{version}\n"
