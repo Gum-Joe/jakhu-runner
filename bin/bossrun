@@ -1,14 +1,13 @@
 #!/usr/bin/env ruby
 
-# app.rb
+require_relative "../lib/logger"
+require_relative "../lib/help"
+require_relative "../lib/error"
+
+# bossrun
 # Parses args
 # Provisions box
 # Runs app
-# Symb-link: bin/bossrun
-
-# Require out logger in lib/
-require_relative "../lib/logger"
-require_relative "../lib/help"
 
 # Version number
 # Also, set args to the ARGV array
@@ -27,6 +26,28 @@ if args.include?('--help') || args.include?('-h')
   exit 0
 end
 print "Boss runner\nVersion #{version}\n"
-
-log("Starting web-app #{ENV["BOSS_APP_NAME"]}")
+# What to do if command is start
+if args[0] == 'start'
+  # Checks
+  # Check for verbose flag
+  if args.include?('--verbose')
+    print("\r===> #{ENV["BOSS_WORKER_NAME"]}: Checking for a .boss.yml file...")
+  end
+  if File.file?("#{ENV["BOSS_WEB_DIR"]}/.boss.yml") == false
+    print("\r===> #{ENV["BOSS_WORKER_NAME"]}: Checking for a .boss.yml file... error!\n")
+    err = Error.new("ENOENT", "Could not find a .boss.yml in the directory '#{ENV["BOSS_WEB_DIR"]}'!", "Please check the file exists!")
+    err.throw()
+  else
+    if args.include?('--verbose')
+      print("\r===> #{ENV["BOSS_WORKER_NAME"]}: Checking for a .boss.yml file... true\n")
+    end
+  end
+  # Start web-app
+  log("Starting web-app '#{ENV["BOSS_APP_NAME"]}'")
+  log("Worker name:      '#{ENV["BOSS_WORKER_NAME"]}'")
+  log("Web-app name:     '#{ENV["BOSS_APP_NAME"]}'")
+  log("Web-app location: '#{ENV["BOSS_WEB_DIR"]}'")
+  # Has the web-app already been built?
+  # Check file BOSS_WEB_DIR
+end
 # Args checking
