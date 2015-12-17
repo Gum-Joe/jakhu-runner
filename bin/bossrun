@@ -23,7 +23,6 @@ if args.include?('-v')
 end
 # Fast-track to help
 if args.include?('--help') || args.include?('-h')
-  print "Boss runner\nVersion #{version}\n"
   help()
   exit 0
 end
