@@ -22,7 +22,7 @@ module Runner
     def setprop(prop)
       # What is it?
       if prop == "worker"
-        # If it con find config, use it
+        # If it can find config, use it
         if File.file?("#{@home}/boss/tub_config.yml")
           # Parse YAML
           config = YAML.load_file("#{@home}/boss/tub_config.yml")
@@ -52,7 +52,7 @@ module Runner
       end
 
       if prop == "app_name"
-        # If it con find config, use it
+        # If it can find config, use it
         if File.file?("#{@home}/boss/tub_config.yml")
           # Parse YAML
           config = YAML.load_file("#{@home}/boss/tub_config.yml")
@@ -72,6 +72,37 @@ module Runner
           return ENV["BOSS_APP_NAME"]
         else
           err = Error.new("ENOENV", "Could not set property '#{prop}'!", "Please set the enviroment variable 'BOSS_APP_NAME' or specify it in config (#{@home}/boss/tub_config.yml)")
+          stackss = []
+          stackss.push("#{ENV["PWD"]}/lib/set.rb:73")
+          stackss.push("#{ENV["PWD"]}/lib/error.rb")
+          stackss.push("env")
+          stackss.push("#{@home}/boss")
+          err.throw(stackss)
+          return "Error!"
+        end
+      end
+
+      if prop == "app_dir"
+        # If it can find config, use it
+        if File.file?("#{@home}/boss/tub_config.yml")
+          # Parse YAML
+          config = YAML.load_file("#{@home}/boss/tub_config.yml")
+          if config["dir"]
+            return config["dir"]
+          else
+            # assume error
+            err = Error.new("ENONAME", "Property 'dir' not found in tub config (#{@home}/boss/tub_config.yml)!", "Please add the 'dir' field to config (#{@home}/boss/tub_config.yml)")
+            stacks = []
+            stacks.push("#{ENV["PWD"]}/lib/set.rb:94")
+            stacks.push("#{@home}/boss/tub_config.yml:5")
+            err.throw(stacks)
+            return "Error!"
+          end
+        end
+        if ENV["BOSS_APP_DIR"]
+          return ENV["BOSS_APP_DIR"]
+        else
+          err = Error.new("ENOENV", "Could not set property '#{prop}'!", "Please set the enviroment variable 'BOSS_APP_DIR' or specify it in config (#{@home}/boss/tub_config.yml)")
           stackss = []
           stackss.push("#{ENV["PWD"]}/lib/set.rb:73")
           stackss.push("#{ENV["PWD"]}/lib/error.rb")

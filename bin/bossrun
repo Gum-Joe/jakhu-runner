@@ -13,12 +13,7 @@ if ARGV.include?("--verbose")
 end
 worker = settings.setprop("worker")
 app = settings.setprop("app_name")
-#nt worker
-
-# bossrun
-# Parses args
-# Provisions box
-# Runs app
+appd = settings.setprop("app_dir")
 
 # Version number
 # Also, set args to the ARGV array
@@ -44,9 +39,14 @@ if args[0] == 'start'
   if args.include?('--verbose')
     print("\r===> #{worker}: Checking for a .boss.yml file...")
   end
-  if File.file?("#{ENV["BOSS_WEB_DIR"]}/.boss.yml") == false
+  if File.file?("#{appd}/.boss.yml") == false
     print("\r===> #{worker}: Checking for a .boss.yml file... error!\n")
-    err = Error.new("ENOENT", "Could not find a .boss.yml in the directory '#{ENV["BOSS_WEB_DIR"]}'!", "Please check the file exists!")
+    err = Error.new("ENOENT", "Could not find a .boss.yml in the directory '#{appd}'!", "Please check the file exists!")
+    stackss = []
+    stackss.push("#{ENV["PWD"]}/bin/bossrun:50")
+    stackss.push("#{ENV["PWD"]}/lib/error.rb")
+    stackss.push("env")
+    stackss.push("#{@home}/boss")
     err.throw(nil)
   else
     if args.include?('--verbose')
@@ -54,11 +54,12 @@ if args[0] == 'start'
     end
   end
   # Start web-app
-  log("Starting web-app '#{ENV["BOSS_APP_NAME"]}'")
+  log("Starting web-app '#{app}'")
   log("Worker name:      '#{worker}'")
-  log("Web-app name:     '#{ENV["BOSS_APP_NAME"]}'")
-  log("Web-app location: '#{ENV["BOSS_WEB_DIR"]}'")
+  log("Web-app name:     '#{app}'")
+  log("Web-app location: '#{appd}'")
+  Runner::start()
   # Has the web-app already been built?
-  # Check file BOSS_WEB_DIR
+  # Check file appd/.boss/build_log.txt
 end
 # Args checking

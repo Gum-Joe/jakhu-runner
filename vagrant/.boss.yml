@@ -1,0 +1,31 @@
+# Sample config
+# Configures Web-app
+# Language
+language: nodejs
+nodejs:
+  - 1.0.1
+require:
+  - ruby
+name: app1
+# Command to start
+start: node bin/www
+port: 8080
+# Install - npm install for nodejs
+global:
+  npm:
+    - bower
+    - grunt-cli
+    - nodemon
+    - node-gyp
+  gem:
+    - sass
+
+env:
+  - NODE_ENV=dev
+
+build:
+  install:
+    - npm install
+  # Build?
+  script:
+    - grunt compile
