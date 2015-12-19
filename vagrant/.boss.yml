@@ -6,11 +6,11 @@ nodejs:
   - 1.0.1
 require:
   - ruby
-name: app1
+name: app
 # Command to start
 start: node bin/www
 port: 8080
-# Install - npm install for nodejs
+
 global:
   npm:
     - bower
@@ -26,6 +26,5 @@ env:
 build:
   install:
     - npm install
-  # Build?
   script:
     - grunt compile

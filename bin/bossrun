@@ -4,6 +4,7 @@ require_relative "../lib/logger"
 require_relative "../lib/help"
 require_relative "../lib/error"
 require_relative "../lib/set"
+require_relative "../lib/build"
 # TODO: Uncomment lin below for production
 # home = ENV["HOME"] || ENV["HOMEPATH"]
 home = ENV["PWD"]
@@ -58,7 +59,7 @@ if args[0] == 'start'
   log("Worker name:      '#{worker}'")
   log("Web-app name:     '#{app}'")
   log("Web-app location: '#{appd}'")
-  Runner::start()
+  build(args, worker, app, appd)
   # Has the web-app already been built?
   # Check file appd/.boss/build_log.txt
 end

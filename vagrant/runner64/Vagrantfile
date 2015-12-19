@@ -1,0 +1,91 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+
+# This Vagrant file specifies the way to provision
+# a box for running boss web-apps in tubs
+
+Vagrant.configure(2) do |config|
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://atlas.hashicorp.com/search.
+  config.vm.box = "ubuntu/trusty64"
+
+  config.vm.provider "virtualbox" do |vb|
+    # Customize the amount of memory on the VM:
+    vb.memory = "512"
+  end
+  #
+  # View the documentation for the provider you are using for more
+  # information on available options.
+
+  # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
+  # such as FTP and Heroku are also available. See the documentation at
+  # https://docs.vagrantup.com/v2/push/atlas.html for more information.
+  config.push.define "atlas" do |push|
+    push.app = "bossjs/runner64"
+  end
+
+  # Provision VM using shell
+  # vars
+  gcc_cxx = "g++-4.8"
+  gcc = "gcc"
+  bosshome_rc = "/home/bossjs/.bashrc"
+  config.vm.provision "shell", inline: <<-SHELL
+    # Install git-core
+    sudo apt-get update
+    sudo apt-get install -y git-core
+    # Install curl
+    sudo apt-get install -y curl
+    # gpg for rvm
+    sudo apt-get install -y gnupg
+    # Python2
+    sudo apt-get install -y python
+    # Build packages
+    sudo apt-get install -y build-essential libssl-dev
+    # g++ and clang
+    sudo apt-get install -y g++-4.8
+  SHELL
+  # Create user bossjs
+  config.vm.provision "shell", inline: <<-SHELL
+    # Create user
+    sudo adduser --disabled-password --gecos "" bossjs
+    # Set shell to bash
+    # chsh -u bossjs -s /bin/bash
+    # Create ssh key
+    ssh-keygen -b 1024 -f bossjs -t dsa
+    sudo mkdir -p /home/bossjs/.ssh
+    cat bossjs.pub | sudo tee -a /home/bossjs/.ssh/authorized_keys
+    sudo chmod 600 /home/bossjs/.ssh/authorized_keys
+    sudo chmod 700 /home/bossjs/.ssh
+    sudo chown -R bossjs /home/bossjs
+    # add env vars
+    echo CXX=#{gcc_cxx} >> #{bosshome_rc}
+  SHELL
+  # Configure login as bossjs
+  # config.ssh.username = "bossjs"
+  # Install software
+  config.vm.provision "shell", inline: <<-SHELL
+    # pip
+    python get-pip.py
+    # Virtual env
+    pip install virtualenv
+    # nodejs
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
+    # Install stable
+    nvm install stable
+    # add use to shell
+    echo "nvm use stable" >> #{bosshome_rc}
+    # Install rvm
+    gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+    curl -sSL https://get.rvm.io | bash -s stable
+    rvm install ruby_head
+    # Install bundle
+    gem install bundle
+    # Done!
+  SHELL
+end
