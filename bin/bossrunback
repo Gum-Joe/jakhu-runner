@@ -3,17 +3,6 @@
 require_relative "../lib/logger"
 require_relative "../lib/help"
 require_relative "../lib/error"
-require_relative "../lib/set"
-# TODO: Uncomment lin below for production
-# home = ENV["HOME"] || ENV["HOMEPATH"]
-home = ENV["PWD"]
-settings = Runner::Set.new("env")
-if ARGV.include?("--verbose")
-  print("===> Setting worker settings...\n")
-end
-worker = settings.setprop("worker")
-app = settings.setprop("app_name")
-#nt worker
 
 # bossrun
 # Parses args
@@ -42,20 +31,20 @@ if args[0] == 'start'
   # Checks
   # Check for verbose flag
   if args.include?('--verbose')
-    print("\r===> #{worker}: Checking for a .boss.yml file...")
+    print("\r===> #{ENV["BOSS_WORKER_NAME"]}: Checking for a .boss.yml file...")
   end
   if File.file?("#{ENV["BOSS_WEB_DIR"]}/.boss.yml") == false
-    print("\r===> #{worker}: Checking for a .boss.yml file... error!\n")
+    print("\r===> #{ENV["BOSS_WORKER_NAME"]}: Checking for a .boss.yml file... error!\n")
     err = Error.new("ENOENT", "Could not find a .boss.yml in the directory '#{ENV["BOSS_WEB_DIR"]}'!", "Please check the file exists!")
-    err.throw(nil)
+    err.throw()
   else
     if args.include?('--verbose')
-      print("\r===> #{worker}: Checking for a .boss.yml file... true\n")
+      print("\r===> #{ENV["BOSS_WORKER_NAME"]}: Checking for a .boss.yml file... true\n")
     end
   end
   # Start web-app
   log("Starting web-app '#{ENV["BOSS_APP_NAME"]}'")
-  log("Worker name:      '#{worker}'")
+  log("Worker name:      '#{ENV["BOSS_WORKER_NAME"]}'")
   log("Web-app name:     '#{ENV["BOSS_APP_NAME"]}'")
   log("Web-app location: '#{ENV["BOSS_WEB_DIR"]}'")
   # Has the web-app already been built?

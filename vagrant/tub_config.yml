@@ -1,0 +1,12 @@
+# Sample tub config
+# Name of tub
+name: default
+
+# Lang
+language: nodejs
+
+# Web-app dir (BOSS_WEB_DIR)
+dir: vagrant
+
+# Web-app name
+app: foo

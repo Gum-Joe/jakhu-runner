@@ -10,13 +10,23 @@ class Error
   def initialize(code, emessage, advice)
     @codex = code
     @e = emessage
-    @advicex = advice
   end
-  def throw
+
+  def stack(file, line)
+    @stack.push("#{file}:#{line}")
+  end
+
+  def throw(stack)
     print "\nError!\n"
     print "#{@e}\n"
-    print "#{@advicex}\n"
+    print "#{@advicex}"
     print "Err::#{@codex}"
+    if stack != nil
+      stack.each do |i|
+        print "\n at #{i}"
+      end
+    end
     exit 1
   end
+
 end
