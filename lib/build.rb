@@ -15,11 +15,6 @@ def build(args, worker, app, dir)
   home = ENV["PWD"]
   config = YAML.load_file("#{dir}/.boss.yml")
   tub = YAML.load_file("#{home}/boss/tub_config.yml")
-  log("Starting web-app: '#{app}'")
-  log("Tub name:      '#{worker}'")
-  log("Web-app name:     '#{app}'")
-  log("Web-app location: '#{dir}'")
-  log("Language:         '#{config["language"]}'")
   # See what to do
   build = Runner::Builder.new()
   # Create .boss dir

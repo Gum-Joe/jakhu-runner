@@ -11,6 +11,11 @@ def log(txt)
   worker = @settings.setprop("worker")
   print "===> #{worker}: #{txt}\n"
 end
+def loge(txt)
+  @settings = Runner::Set.new("env")
+  worker = @settings.setprop("worker")
+  print "     #{worker}: #{txt}\n"
+end
 
 def log_rep(txt)
   @settings = Runner::Set.new("env")

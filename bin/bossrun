@@ -2,11 +2,13 @@
 
 require 'rubygems'
 require 'json'
+require "yaml"
 require_relative "../lib/logger"
 require_relative "../lib/help"
 require_relative "../lib/error"
 require_relative "../lib/set"
 require_relative "../lib/build"
+require_relative "../lib/starter"
 
 # Version number
 # Also, set args to the ARGV array
@@ -27,6 +29,8 @@ end
 worker = settings.setprop("worker")
 app = settings.setprop("app_name")
 appd = settings.setprop("app_dir")
+config = YAML.load_file("#{appd}/.boss.yml")
+tub = YAML.load_file("#{home}/boss/tub_config.yml")
 
 # Fast track to showing version number and help
 if args.include?('-v')
@@ -40,6 +44,12 @@ if args.include?('--help') || args.include?('-h')
 end
 # What to do if command is start
 if args[0] == 'start'
+  # state
+  log("Starting web-app: '#{app}'")
+  loge("Tub name:      '#{worker}'")
+  loge("Web-app name:     '#{app}'")
+  loge("Web-app location: '#{appd}'")
+  loge("Language:         '#{config["language"]}'")
   # Checks
   # Check for verbose flag
   if args.include?('--verbose')
@@ -62,6 +72,7 @@ if args[0] == 'start'
   # Check build state
   if File.file?("#{appd}/.boss/build.json")
     # Check state
+    print("\r===> #{worker}: Checking the state of the last build...\n")
     buildjson = File.read("#{appd}/.boss/build.json")
     begin
       build = JSON.parse(buildjson)
@@ -94,9 +105,14 @@ if args[0] == 'start'
       builderr.stack("#{appd}/.boss/build.json", lines[0])
       builderr.throw()
     elsif build["builds"]["#{bui}"]["state"] == "success"
-      log("The last build was successful.")
-      log("Continueing to starting web-app")
+      loge("The last build was successful!")
+      log("Continuing to starting web-app...")
+      start_app(args, worker, app, appd)
     end
+  else
+    log("Web-app has not been built yet!")
+    log("Now building web-app #{app}...")
+    build(args, worker, app, appd)
   end
   # Start web-app
   #build(args, worker, app, appd)

@@ -34,7 +34,7 @@ class Error
     @stackx.push(@call)
     print "\nError!\n"
     print "#{@e}\n"
-    print "#{@advicex}\n"
+    print "#{@advicex}\n" if @advicex != nil
     if @tyx != false
       print "Err::#{@codex}"
     else
