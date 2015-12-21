@@ -10,19 +10,38 @@ class Error
   def initialize(code, emessage, advice)
     @codex = code
     @e = emessage
+    @advicex = advice
+    @stackx = []
+    @tyx = nil
+    @call = caller[0]
   end
 
   def stack(file, line)
-    @stack.push("#{file}:#{line}")
+    @stackx.push("#{file}:#{line}")
   end
 
-  def throw(stack)
+  def stackg(ex)
+    @stackx.push(ex)
+  end
+
+  def set(ty)
+    if ty == "gem"
+      @tyx = false
+    end
+  end
+
+  def throw()
+    @stackx.push(@call)
     print "\nError!\n"
     print "#{@e}\n"
-    print "#{@advicex}"
-    print "Err::#{@codex}"
-    if stack != nil
-      stack.each do |i|
+    print "#{@advicex}\n"
+    if @tyx != false
+      print "Err::#{@codex}"
+    else
+      print @codex
+    end
+    if @stackx != nil
+      @stackx.each do |i|
         print "\n at #{i}"
       end
     end

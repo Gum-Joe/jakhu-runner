@@ -1,9 +1,11 @@
 # Sample tub config
 # Name of tub (BOSS_WORKER_NAME)
+# The rest is in config
 name: default
 
 # Lang
 language: nodejs
+version: stable
 
 # Web-app dir (BOSS_WEB_DIR)
 dir: vagrant

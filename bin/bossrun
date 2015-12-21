@@ -1,13 +1,25 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
+require 'json'
 require_relative "../lib/logger"
 require_relative "../lib/help"
 require_relative "../lib/error"
 require_relative "../lib/set"
 require_relative "../lib/build"
+
+# Version number
+# Also, set args to the ARGV array
+# For easier reference
+version = "0.1.0"
+args = ARGV.dup
+
+print "Boss runner\nVersion #{version}\n"
+
 # TODO: Uncomment lin below for production
 # home = ENV["HOME"] || ENV["HOMEPATH"]
 home = ENV["PWD"]
+
 settings = Runner::Set.new("env")
 if ARGV.include?("--verbose")
   print("===> Setting worker settings...\n")
@@ -15,12 +27,6 @@ end
 worker = settings.setprop("worker")
 app = settings.setprop("app_name")
 appd = settings.setprop("app_dir")
-
-# Version number
-# Also, set args to the ARGV array
-# For easier reference
-version = "0.1.0"
-args = ARGV.dup
 
 # Fast track to showing version number and help
 if args.include?('-v')
@@ -32,7 +38,6 @@ if args.include?('--help') || args.include?('-h')
   help()
   exit 0
 end
-print "Boss runner\nVersion #{version}\n"
 # What to do if command is start
 if args[0] == 'start'
   # Checks
@@ -44,22 +49,57 @@ if args[0] == 'start'
     print("\r===> #{worker}: Checking for a .boss.yml file... error!\n")
     err = Error.new("ENOENT", "Could not find a .boss.yml in the directory '#{appd}'!", "Please check the file exists!")
     stackss = []
-    stackss.push("#{ENV["PWD"]}/bin/bossrun:50")
-    stackss.push("#{ENV["PWD"]}/lib/error.rb")
-    stackss.push("env")
-    stackss.push("#{@home}/boss")
-    err.throw(nil)
+    err.stackg(caller[0])
+    err.stackg("#{ENV["PWD"]}/lib/error.rb")
+    err.stackg("env")
+    err.stackg("#{@home}/boss")
+    err.throw()
   else
     if args.include?('--verbose')
       print("\r===> #{worker}: Checking for a .boss.yml file... true\n")
     end
   end
+  # Check build state
+  if File.file?("#{appd}/.boss/build.json")
+    # Check state
+    buildjson = File.read("#{appd}/.boss/build.json")
+    begin
+      build = JSON.parse(buildjson)
+    rescue JSON::ParserError => e
+      jsonerr = Error.new("JSON::ParserError", e.message, "Please check the file #{appd}/.boss/build.json.\n")
+      jsonerr.set("gem")
+      jsonerr.stackg(caller[0])
+      era = eval(e.backtrace.inspect)
+      xy = 1
+      while xy < era.length
+        jsonerr.stackg(era[xy])
+        xy +=1
+      end
+      jsonerr.throw()
+    end
+    bui = "latest"
+    logadvice = "Please check your build logs and change your commands if required. You can get logs by running 'bossrun fetch log #{bui} --build'"
+    # Check state
+    if build["builds"]["#{bui}"]["state"] != "success"
+      builderr = Error.new("EBUILD_STATE", "The last build was not a success!", logadvice)
+      stackbuild = File.readlines("#{appd}/.boss/build.json")
+      lines = []
+      $i = 0
+      while $i < stackbuild.length
+        if stackbuild[$i].include? "state"
+          lines.push($i)
+        end
+        $i +=1
+      end
+      builderr.stack("#{appd}/.boss/build.json", lines[0])
+      builderr.throw()
+    elsif build["builds"]["#{bui}"]["state"] == "success"
+      log("The last build was successful.")
+      log("Continueing to starting web-app")
+    end
+  end
   # Start web-app
-  log("Starting web-app '#{app}'")
-  log("Worker name:      '#{worker}'")
-  log("Web-app name:     '#{app}'")
-  log("Web-app location: '#{appd}'")
-  build(args, worker, app, appd)
+  #build(args, worker, app, appd)
   # Has the web-app already been built?
   # Check file appd/.boss/build_log.txt
 end

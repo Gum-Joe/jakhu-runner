@@ -32,9 +32,9 @@ module Runner
             # assume error
             err = Error.new("ENONAME", "Property 'name' not found in tub config (#{@home}/boss/tub_config.yml)!", "Please add the 'name' field to config (#{@home}/boss/tub_config.yml)")
             stacks = []
-            stacks.push("#{ENV["PWD"]}/lib/set.rb:33")
-            stacks.push("#{@home}/boss/tub_config.yml:1")
-            err.throw(stacks)
+            err.stackg(caller[0])
+            err.stackg("#{@home}/boss/tub_config.yml:1")
+            err.throw()
             return "Error!"
           end
         end
@@ -43,10 +43,9 @@ module Runner
         else
           err = Error.new("ENOENV", "Could not set property '#{prop}'!", "Please set the enviroment variable 'BOSS_WORKER_NAME' or specify it in config (#{@home}/boss/tub_config.yml)")
           stackss = []
-          stackss.push("#{ENV["PWD"]}/lib/set.rb:44")
-          stackss.push("#{ENV["PWD"]}/lib/error.rb")
-          stackss.push("#{@home}/boss")
-          err.throw(stackss)
+          err.stackg(caller[0])
+          err.stackg("#{ENV["PWD"]}/lib/error.rb")
+          err.throw()
           return "Error!"
         end
       end
@@ -62,9 +61,9 @@ module Runner
             # assume error
             err = Error.new("ENONAME", "Property 'app' not found in tub config (#{@home}/boss/tub_config.yml)!", "Please add the 'app' field to config (#{@home}/boss/tub_config.yml)")
             stacks = []
-            stacks.push("#{ENV["PWD"]}/lib/set.rb:62")
-            stacks.push("#{@home}/boss/tub_config.yml:7")
-            err.throw(stacks)
+            err.stackg(caller[0])
+            err.stackg("#{@home}/boss/tub_config.yml:7")
+            err.throw()
             return "Error!"
           end
         end
@@ -73,11 +72,9 @@ module Runner
         else
           err = Error.new("ENOENV", "Could not set property '#{prop}'!", "Please set the enviroment variable 'BOSS_APP_NAME' or specify it in config (#{@home}/boss/tub_config.yml)")
           stackss = []
-          stackss.push("#{ENV["PWD"]}/lib/set.rb:73")
-          stackss.push("#{ENV["PWD"]}/lib/error.rb")
-          stackss.push("env")
-          stackss.push("#{@home}/boss")
-          err.throw(stackss)
+          err.stackg(caller[0])
+          err.stackg("env")
+          err.throw()
           return "Error!"
         end
       end
@@ -93,9 +90,9 @@ module Runner
             # assume error
             err = Error.new("ENONAME", "Property 'dir' not found in tub config (#{@home}/boss/tub_config.yml)!", "Please add the 'dir' field to config (#{@home}/boss/tub_config.yml)")
             stacks = []
-            stacks.push("#{ENV["PWD"]}/lib/set.rb:94")
-            stacks.push("#{@home}/boss/tub_config.yml:5")
-            err.throw(stacks)
+            err.stackg(caller[0])
+            err.stackg("#{@home}/boss/tub_config.yml:5")
+            err.throw()
             return "Error!"
           end
         end
@@ -104,11 +101,9 @@ module Runner
         else
           err = Error.new("ENOENV", "Could not set property '#{prop}'!", "Please set the enviroment variable 'BOSS_APP_DIR' or specify it in config (#{@home}/boss/tub_config.yml)")
           stackss = []
-          stackss.push("#{ENV["PWD"]}/lib/set.rb:73")
-          stackss.push("#{ENV["PWD"]}/lib/error.rb")
-          stackss.push("env")
-          stackss.push("#{@home}/boss")
-          err.throw(stackss)
+          err.stackg(caller[0])
+          err.stackg("env")
+          err.throw()
           return "Error!"
         end
       end

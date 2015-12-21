@@ -3,7 +3,7 @@
 # Language
 language: nodejs
 nodejs:
-  - 1.0.1
+  - stable
 require:
   - ruby
 name: app
@@ -28,3 +28,16 @@ build:
     - npm install
   script:
     - grunt compile
+
+# ENV
+# BOSS_LANG_VERSION
+# BOSS_OS
+# BOSS_RUNNER_VERSION
+# BOSS_NODEJS_VERSION
+# BOSS_RUBY_VERSION
+# BOSS_PYTHON_VERSION
+# BOSS_BOX_VERSION
+# BOSS_RUN_ID
+# BOSS_TUB_ID
+# BOSS_APP_NAME
+# BOSS_TUB_NAME
