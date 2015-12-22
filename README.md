@@ -15,7 +15,7 @@ For example:
 
 Then, to get started, run `bin/bossrun start`
 
-# Using out Vagrant box
+# Using our Vagrant box
   * `vagrant up && vagrant ssh`
 
 Then, in the vagrant shell:
