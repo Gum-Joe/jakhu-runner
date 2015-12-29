@@ -1,5 +1,5 @@
-# boss-runner
-Vagrant box provisioner and web-app runner for boss.js
+# jakhu-runner
+Vagrant box provisioner and web-app runner for jakhu.js
 
 # Setup
 To get started, we need some enviroment vars for knowing about the worker.
@@ -13,10 +13,10 @@ For example:
   * `export BOSS_APP_NAME=foo`
   * `export BOSS_APP_DIR=$PWD/bar`
 
-Then, to get started, run `bin/bossrun start`
+Then, to get started, run `bin/jakhurun start`
 
 # Using our Vagrant box
   * `vagrant up && vagrant ssh`
 
 Then, in the vagrant shell:
-  * `source /vagrant/vagrantvars.sh && /vagrant/bin/bossrun start`
+  * `source /vagrant/vagrantvars.sh && /vagrant/bin/jakhurun start`

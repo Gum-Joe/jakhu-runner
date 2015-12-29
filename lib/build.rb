@@ -13,16 +13,16 @@ require_relative "build_class"
 def build(args, worker, app, dir)
   # Load config
   home = ENV["PWD"]
-  config = YAML.load_file("#{dir}/.boss.yml")
-  tub = YAML.load_file("#{home}/boss/tub_config.yml")
+  config = YAML.load_file("#{dir}/.jakhu.yml")
+  tub = YAML.load_file("#{home}/jakhu/tub_config.yml")
   # See what to do
   build = Runner::Builder.new()
-  # Create .boss dir
+  # Create .jakhu dir
   require 'fileutils'
-  FileUtils.mkdir_p "#{dir}/.boss"
+  FileUtils.mkdir_p "#{dir}/.jakhu"
   # Create file and append shebang
   @shebang = "#!/bin/bash\n"
-  bui = File.open "#{dir}/.boss/build.sh","w+"
+  bui = File.open "#{dir}/.jakhu/build.sh","w+"
   bui.write @shebang
 
   if config["language"] == "nodejs"

@@ -12,7 +12,12 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "bossjs/runner64"
+  config.vm.box = "ubuntu/trusty64"
+  config.ssh.username = "vagrant"
+  config.vm.provision "shell" do |s|
+    s.path = "scripts/dep.sh"
+    s.privileged = false
+  end
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs

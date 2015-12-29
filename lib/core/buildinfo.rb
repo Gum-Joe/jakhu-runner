@@ -1,4 +1,17 @@
-#!/bin/bash
+# buildinfo.rb
+# Class for createing build info
+
+module Core
+  module Generater
+    class BuildInfo
+      def initialize(args, config, tub)
+        @args = args
+        @config = config
+        @tub = tub
+      end
+      # TODO: Find way for jakhu.js to see this needs collapsing
+      def create_build_info()
+        @buildinfo = <<-SHELL
 # Build info
 echo Build System Infomation:
 echo
@@ -83,3 +96,9 @@ echo
 echo virtualenv --version
 virtualenv --version
 echo
+        SHELL
+        return @buildinfo
+      end
+    end
+  end
+end

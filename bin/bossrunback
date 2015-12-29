@@ -4,7 +4,7 @@ require_relative "../lib/logger"
 require_relative "../lib/help"
 require_relative "../lib/error"
 
-# bossrun
+# jakhurun
 # Parses args
 # Provisions box
 # Runs app
@@ -25,21 +25,21 @@ if args.include?('--help') || args.include?('-h')
   help()
   exit 0
 end
-print "Boss runner\nVersion #{version}\n"
+print "Jakhu runner\nVersion #{version}\n"
 # What to do if command is start
 if args[0] == 'start'
   # Checks
   # Check for verbose flag
   if args.include?('--verbose')
-    print("\r===> #{ENV["BOSS_WORKER_NAME"]}: Checking for a .boss.yml file...")
+    print("\r===> #{ENV["BOSS_WORKER_NAME"]}: Checking for a .jakhu.yml file...")
   end
-  if File.file?("#{ENV["BOSS_WEB_DIR"]}/.boss.yml") == false
-    print("\r===> #{ENV["BOSS_WORKER_NAME"]}: Checking for a .boss.yml file... error!\n")
-    err = Error.new("ENOENT", "Could not find a .boss.yml in the directory '#{ENV["BOSS_WEB_DIR"]}'!", "Please check the file exists!")
+  if File.file?("#{ENV["BOSS_WEB_DIR"]}/.jakhu.yml") == false
+    print("\r===> #{ENV["BOSS_WORKER_NAME"]}: Checking for a .jakhu.yml file... error!\n")
+    err = Error.new("ENOENT", "Could not find a .jakhu.yml in the directory '#{ENV["BOSS_WEB_DIR"]}'!", "Please check the file exists!")
     err.throw()
   else
     if args.include?('--verbose')
-      print("\r===> #{ENV["BOSS_WORKER_NAME"]}: Checking for a .boss.yml file... true\n")
+      print("\r===> #{ENV["BOSS_WORKER_NAME"]}: Checking for a .jakhu.yml file... true\n")
     end
   end
   # Start web-app

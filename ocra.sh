@@ -1,2 +1,2 @@
 #!/bin/bash
-ocra bin/bossrun lib/**/*.rb
+ocra bin/jakhurun lib/**/*.rb

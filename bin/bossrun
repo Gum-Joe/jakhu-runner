@@ -9,14 +9,15 @@ require_relative "../lib/error"
 require_relative "../lib/set"
 require_relative "../lib/build"
 require_relative "../lib/starter"
+require_relative "../lib/version"
 
 # Version number
 # Also, set args to the ARGV array
 # For easier reference
-version = "0.1.0"
+version = get_version()
 args = ARGV.dup
 
-print "Boss runner\nVersion #{version}\n"
+print "Jakhu runner\nVersion #{version}\n"
 
 # TODO: Uncomment lin below for production
 # home = ENV["HOME"] || ENV["HOMEPATH"]
@@ -29,8 +30,8 @@ end
 worker = settings.setprop("worker")
 app = settings.setprop("app_name")
 appd = settings.setprop("app_dir")
-config = YAML.load_file("#{appd}/.boss.yml")
-tub = YAML.load_file("#{home}/boss/tub_config.yml")
+config = YAML.load_file("#{appd}/.jakhu.yml")
+tub = YAML.load_file("#{home}/jakhu/tub_config.yml")
 
 # Fast track to showing version number and help
 if args.include?('-v')
@@ -53,31 +54,31 @@ if args[0] == 'start'
   # Checks
   # Check for verbose flag
   if args.include?('--verbose')
-    print("\r===> #{worker}: Checking for a .boss.yml file...")
+    print("\r===> #{worker}: Checking for a .jakhu.yml file...")
   end
-  if File.file?("#{appd}/.boss.yml") == false
-    print("\r===> #{worker}: Checking for a .boss.yml file... error!\n")
-    err = Error.new("ENOENT", "Could not find a .boss.yml in the directory '#{appd}'!", "Please check the file exists!")
+  if File.file?("#{appd}/.jakhu.yml") == false
+    print("\r===> #{worker}: Checking for a .jakhu.yml file... error!\n")
+    err = Error.new("ENOENT", "Could not find a .jakhu.yml in the directory '#{appd}'!", "Please check the file exists!")
     stackss = []
     err.stackg(caller[0])
     err.stackg("#{ENV["PWD"]}/lib/error.rb")
     err.stackg("env")
-    err.stackg("#{@home}/boss")
+    err.stackg("#{@home}/jakhu")
     err.throw()
   else
     if args.include?('--verbose')
-      print("\r===> #{worker}: Checking for a .boss.yml file... true\n")
+      print("\r===> #{worker}: Checking for a .jakhu.yml file... true\n")
     end
   end
   # Check build state
-  if File.file?("#{appd}/.boss/build.json")
+  if File.file?("#{appd}/.jakhu/build.json")
     # Check state
     print("\r===> #{worker}: Checking the state of the last build...\n")
-    buildjson = File.read("#{appd}/.boss/build.json")
+    buildjson = File.read("#{appd}/.jakhu/build.json")
     begin
       build = JSON.parse(buildjson)
     rescue JSON::ParserError => e
-      jsonerr = Error.new("JSON::ParserError", e.message, "Please check the file #{appd}/.boss/build.json.\n")
+      jsonerr = Error.new("JSON::ParserError", e.message, "Please check the file #{appd}/.jakhu/build.json.\n")
       jsonerr.set("gem")
       jsonerr.stackg(caller[0])
       era = eval(e.backtrace.inspect)
@@ -89,11 +90,11 @@ if args[0] == 'start'
       jsonerr.throw()
     end
     bui = "latest"
-    logadvice = "Please check your build logs and change your commands if required. You can get logs by running 'bossrun fetch log #{bui} --build'"
+    logadvice = "Please check your build logs and change your commands if required. You can get logs by running 'jakhurun fetch log #{bui} --build'"
     # Check state
     if build["builds"]["#{bui}"]["state"] != "success"
       builderr = Error.new("EBUILD_STATE", "The last build was not a success!", logadvice)
-      stackbuild = File.readlines("#{appd}/.boss/build.json")
+      stackbuild = File.readlines("#{appd}/.jakhu/build.json")
       lines = []
       $i = 0
       while $i < stackbuild.length
@@ -102,7 +103,7 @@ if args[0] == 'start'
         end
         $i +=1
       end
-      builderr.stack("#{appd}/.boss/build.json", lines[0])
+      builderr.stack("#{appd}/.jakhu/build.json", lines[0])
       builderr.throw()
     elsif build["builds"]["#{bui}"]["state"] == "success"
       loge("The last build was successful!")
@@ -117,6 +118,6 @@ if args[0] == 'start'
   # Start web-app
   #build(args, worker, app, appd)
   # Has the web-app already been built?
-  # Check file appd/.boss/build_log.txt
+  # Check file appd/.jakhu/build_log.txt
 end
 # Args checking

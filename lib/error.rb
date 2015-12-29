@@ -2,7 +2,7 @@
 # File for throwing errors
 
 # Error class
-# TODO: Add sending to boss server
+# TODO: Add sending to jakhu server
 # @param String code the error code
 # @param String emessage the error message
 # @param String advice advice for the user
