@@ -50,5 +50,3 @@ source /home/vagrant/.virtualenv/bin/activate
 
 # java
 sudo apt-get install -y openjdk-7-jre-headless
-# mvn
-sudo apt-get install maven
