@@ -21,7 +21,7 @@ print "Jakhu runner\nVersion #{version}\n"
 
 # TODO: Uncomment lin below for production
 # home = ENV["HOME"] || ENV["HOMEPATH"]
-home = ENV["PWD"]
+home = ENV["HOME"]
 
 settings = Runner::Set.new("env")
 if ARGV.include?("--verbose")

@@ -8,14 +8,14 @@ require_relative "error"
 
 # NOTE: Uncomment line below for production
 # home = ENV["HOME"] || ENV["HOMEPATH"]
-home = ENV["PWD"]
+home = ENV["HOME"]
 
 module Runner
   class Set
     def initialize(type)
       if type == "env"
         @prtype = "env"
-        @home = ENV["PWD"]
+        @home = ENV["HOME"]
       end
     end
 

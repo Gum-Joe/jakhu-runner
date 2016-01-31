@@ -15,7 +15,7 @@ def start_app(args, worker, app, dir)
   # Set up info about tub
   # TODO: Uncomment lin below for production
   # home = ENV["HOME"] || ENV["HOMEPATH"]
-  home = ENV["PWD"]
+  home = ENV["HOME"]
 
   settings = ::Runner::Set.new("env")
   worker = settings.setprop("worker")

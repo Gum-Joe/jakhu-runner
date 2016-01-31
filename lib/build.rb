@@ -12,7 +12,7 @@ require_relative "build_class"
 
 def build(args, worker, app, dir)
   # Load config
-  home = ENV["PWD"]
+  home = ENV["HOME"]
   config = YAML.load_file("#{dir}/.jakhu.yml")
   tub = YAML.load_file("#{home}/jakhu/tub_config.yml")
   # See what to do
