@@ -14,7 +14,7 @@ def build(args, worker, app, dir)
   # Load config
   home = ENV["HOME"]
   config = YAML.load_file("#{dir}/.jakhu.yml")
-  tub = YAML.load_file("#{home}/jakhu/tub_config.yml")
+  tub = YAML.load_file("#{home}/.jakhu/tub_config.yml")
   # See what to do
   build = Runner::Builder.new()
   # Create .jakhu dir

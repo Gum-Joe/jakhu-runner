@@ -22,7 +22,7 @@ def start_app(args, worker, app, dir)
   app = settings.setprop("app_name")
   appd = settings.setprop("app_dir")
   config = YAML.load_file("#{appd}/.jakhu.yml")
-  tub = YAML.load_file("#{home}/jakhu/tub_config.yml")
+  tub = YAML.load_file("#{home}/.jakhu/tub_config.yml")
   languages = []
   languages.push "nodejs"
   languages.push "ruby"
@@ -44,7 +44,7 @@ def start_app(args, worker, app, dir)
   # daemon.set_port(6060)
   # daemon.set_pid(1234)
   # daemon.set_log("#{appd}/.jakhu/#{worker}/logs/#{Time}")
-  # daemon.set_jakhu_server("http://jakhu.js:#{port}")
+  # daemon.set_jakhu_server("http://.jakhu.js:#{port}")
   # daemon.start()
 end
 

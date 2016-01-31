@@ -31,7 +31,7 @@ worker = settings.setprop("worker")
 app = settings.setprop("app_name")
 appd = settings.setprop("app_dir")
 config = YAML.load_file("#{appd}/.jakhu.yml")
-tub = YAML.load_file("#{home}/jakhu/tub_config.yml")
+tub = YAML.load_file("#{home}/.jakhu/tub_config.yml")
 
 # Fast track to showing version number and help
 if args.include?('-v')
