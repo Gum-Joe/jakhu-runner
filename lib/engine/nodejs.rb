@@ -31,27 +31,27 @@ module Runner
         config = YAML.load_file("#{appd}/.jakhu.yml")
         tub = YAML.load_file("#{home}/.jakhu/tub_config.yml")
         # Defines
-        # BOSS_GENERATOR_VERSION = "0.1.0"
+        # JAKHU_GENERATOR_VERSION = "0.1.0"
         # NVM_DIR = "/home/vagrant/.nvm"
-        # BOSS_LANG_VERSION = tub["version"]
-        # BOSS_OS = RbConfig::CONFIG['host_os']
+        # JAKHU_LANG_VERSION = tub["version"]
+        # JAKHU_OS = RbConfig::CONFIG['host_os']
         # Add build system info
         build = ::Core::Generater::BuildInfo.new(args, config, tub)
         bi.write(build.create_build_info())
         # Set nodejs version
         script.add_nvm(config["version"])
         envs = []
-        envs.push "BOSS_LANG_VERSION"
-        envs.push "BOSS_OS"
-        envs.push "BOSS_RUNNER_VERSION"
-        envs.push "BOSS_NODEJS_VERSION"
-        envs.push "BOSS_RUBY_VERSION"
-        envs.push "BOSS_PYTHON_VERSION"
-        envs.push "BOSS_BOX_VERSION"
-        envs.push "BOSS_TUB_ID"
-        envs.push "BOSS_RUN_ID"
-        envs.push "BOSS_TUB_NAME"
-        envs.push "BOSS_APP_NAME"
+        envs.push "JAKHU_LANG_VERSION"
+        envs.push "JAKHU_OS"
+        envs.push "JAKHU_RUNNER_VERSION"
+        envs.push "JAKHU_NODEJS_VERSION"
+        envs.push "JAKHU_RUBY_VERSION"
+        envs.push "JAKHU_PYTHON_VERSION"
+        envs.push "JAKHU_BOX_VERSION"
+        envs.push "JAKHU_TUB_ID"
+        envs.push "JAKHU_RUN_ID"
+        envs.push "JAKHU_TUB_NAME"
+        envs.push "JAKHU_APP_NAME"
       end
     end
   end

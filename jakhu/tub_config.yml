@@ -1,5 +1,5 @@
 # Sample tub config
-# Name of tub (BOSS_WORKER_NAME)
+# Name of tub (JAKHU_WORKER_NAME)
 # The rest is in config
 name: default
 
@@ -7,8 +7,8 @@ name: default
 language: nodejs
 version: stable
 
-# Web-app dir (BOSS_WEB_DIR)
+# Web-app dir (JAKHU_WEB_DIR)
 dir: vagrant
 
-# Web-app name (BOSS_APP_NAME)
+# Web-app name (JAKHU_APP_NAME)
 app: foo

@@ -63,7 +63,7 @@ if args[0] == 'start'
     err.stackg(caller[0])
     err.stackg("#{ENV["PWD"]}/lib/error.rb")
     err.stackg("env")
-    err.stackg("#{@home}/jakhu")
+    err.stackg("#{@home}/.jakhu")
     err.throw()
   else
     if args.include?('--verbose')

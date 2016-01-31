@@ -1,6 +1,6 @@
 #!/bin/bash
 # Script for vars for vagrant box testing
 
-export BOSS_WORKER_NAME=testing
-export BOSS_APP_NAME=tester
-export BOSS_WEB_DIR=/vagrant/test-app
+export JAKHU_WORKER_NAME=testing
+export JAKHU_APP_NAME=tester
+export JAKHU_WEB_DIR=/vagrant/test-app
