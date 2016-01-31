@@ -8,14 +8,14 @@ require_relative "error"
 
 # NOTE: Uncomment line below for production
 # home = ENV["HOME"] || ENV["HOMEPATH"]
-home = ENV["HOME"]
+home = ENV["PWD"]
 
 module Runner
   class Set
     def initialize(type)
       if type == "env"
         @prtype = "env"
-        @home = ENV["HOME"]
+        @home = ENV["PWD"]
       end
     end
 
@@ -66,16 +66,17 @@ module Runner
             err.throw()
             return "Error!"
           end
-        end
-        if ENV["JAKHU_APP_NAME"]
-          return ENV["JAKHU_APP_NAME"]
         else
-          err = Error.new("ENOENV", "Could not set property '#{prop}'!", "Please set the enviroment variable 'JAKHU_APP_NAME' or specify it in config (#{@home}/.jakhu/tub_config.yml)")
-          stackss = []
-          err.stackg(caller[0])
-          err.stackg("env")
-          err.throw()
-          return "Error!"
+          if ENV["JAKHU_APP_NAME"]
+            return ENV["JAKHU_APP_NAME"]
+          else
+            err = Error.new("ENOENV", "Could not set property '#{prop}'!", "Please set the enviroment variable 'JAKHU_APP_NAME' or specify it in config (#{@home}/.jakhu/tub_config.yml)")
+            stackss = []
+            err.stackg(caller[0])
+            err.stackg("env")
+            err.throw()
+            return "Error!"
+          end
         end
       end
 
@@ -95,16 +96,17 @@ module Runner
             err.throw()
             return "Error!"
           end
-        end
-        if ENV["JAKHU_APP_DIR"]
-          return ENV["JAKHU_APP_DIR"]
         else
-          err = Error.new("ENOENV", "Could not set property '#{prop}'!", "Please set the enviroment variable 'JAKHU_APP_DIR' or specify it in config (#{@home}/.jakhu/tub_config.yml)")
-          stackss = []
-          err.stackg(caller[0])
-          err.stackg("env")
-          err.throw()
-          return "Error!"
+          if ENV["JAKHU_APP_DIR"]
+            return ENV["JAKHU_APP_DIR"]
+          else
+            err = Error.new("ENOENV", "Could not set property '#{prop}'!", "Please set the enviroment variable 'JAKHU_APP_DIR' or specify it in config (#{@home}/.jakhu/tub_config.yml)")
+            stackss = []
+            err.stackg(caller[0])
+            err.stackg("env")
+            err.throw()
+            return "Error!"
+          end
         end
       end
     end
