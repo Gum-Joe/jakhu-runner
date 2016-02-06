@@ -1,0 +1,40 @@
+# Configures Web-app
+# Language
+language: nodejs
+nodejs:
+  - stable
+require:
+  - ruby
+name: sample
+# Command to start
+start: node app.js
+# Author
+# services
+author: sample
+services:
+  - mongo
+
+port: 8080
+# Public port that is revaeled by docker (port by default)
+public: 3000
+# Install - npm install for nodejs
+# Tubs
+tubs:
+  - default
+  - def
+global:
+  npm:
+    - bower
+    - grunt-cli
+    - nodemon
+  gem:
+    - sass
+
+env:
+  - NODE_ENV=dev
+
+build:
+  install:
+    - npm install
+  script:
+    - grunt compile
